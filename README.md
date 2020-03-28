@@ -50,7 +50,7 @@ val list: List<Int> = listOfRandomSize(min = 1, maxInclusive = 10) { index -> in
 
 ## Installation:
 ### Gradle:
-In your your `build.gradle` add: 
+In your root `build.gradle` add: 
 ```
 allprojects {
     repositories {
