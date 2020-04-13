@@ -1,48 +1,59 @@
 [![](https://jitpack.io/v/maciej-kaznowski/randoms.svg)](https://jitpack.io/#maciej-kaznowski/randoms)
 
+## Randoms:
+
+The following randoms are currently available, but more will be added when requested:
+
+- ##### Primitives:
+    - `randomInt`
+    - `randomLong`
+    - `randomDouble`
+    - `randomBoolean`
+    - `randomByte`
+    
+- ##### Objects:
+    - `randomString`
+
+- ##### Collections:
+    - `randomListOfSize`
+    - `randomSetOfSize`
+    
+- ##### Arrays:
+    - `randomByteArray`
+
 ## Usage:
 
-The following functions are currently available, but more will be added when requested:
-- `randomString`
-- `randomInt`
-- `randomLong`
-- `randomDouble`
-- `randomBoolean`
-- `listOfRandomSize`
-- `setOfRandomSize`
-
-Usage:
-
 ```kotlin
-val randomStringProvider = randomString()
-
-val firstRandom : String = randomStringProvider()
-val secondRandom : String = randomStringProvider()
+val randomString: String = randomString()
+val randomPositiveInt: Int = randomInt(min = 1)
 ```
 
-You can easily allow generated values to be nullable, by appending .nullable() to the end:
+If you need to add additional conditions on top of the random variables, just wrap them in a lambda:
 ```kotlin
-val randomNullableStringProvider = randomString().nullable()
-
-val randomNullable : String? = randomNullableStringProvider() //50% change of being null
+val randomStringProvider: () -> String = { randomString() }
 ```
 
-
-To create a random nullable hexadecimal string of even length in range [10, 1000)  
+Then you can easily allow generated values to be nullable, by appending .nullable() to the end:
 ```kotlin
-val randomHexProvider = randomString(
-    minSize = 10,
-    maxSizeExclusive = 1000,
-    chars = (CharRange('0', '9') + CharRange('a', 'f')).toCharArray()
-) { hex -> hex.length % 2 == 0 }.nullable()
+val randomNullable: String? = { randomString() }.nullable(nullProbability = 0.5F).invoke()
+```
+
+### Example 1
+To create a random nullable hexadecimal string of even length in range [10, 1000]  
+```kotlin
+val randomHexProvider = { randomString(
+        size = randomInt(min = 10, maxInclusive = 1000),
+        chars = (CharRange('0', '9') + CharRange('a', 'f')).toCharArray()
+)}.suchThat { hex -> hex.length % 2 == 0 }.orNull()
 
 val firstEvenLengthHex : String? = randomHexProvider()
-val secondEveLengthHex : String? = randomHexProvider()
+val secondEvenLengthHex : String? = randomHexProvider()
 ```
 
+### Example 2
 To create a list of random size in range [1, 10] consisting of even integers in increasing order starting from 0:
 ```kotlin
-val list: List<Int> = listOfRandomSize(min = 1, maxInclusive = 10) { index -> index * 2 }.invoke()
+val list: List<Int> = randomListOfSize(size = randomInt(min = 1, maxInclusive = 10)) { index -> index * 2 }
 ```
 
 
