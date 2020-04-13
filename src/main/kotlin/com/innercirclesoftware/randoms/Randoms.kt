@@ -30,7 +30,7 @@ fun <K, T> ((K) -> T).orNull(
 }
 
 /**
- * Returns a function which repeatadly calls the function until it emits an element which satisfies the [condition]
+ * Returns a function which repeatedly calls the function until it emits an element which satisfies the [condition]
  * If no such element is provided after [maxIterations], an [IllegalStateException] is raised.
  */
 fun <T> (() -> T).suchThat(
@@ -38,18 +38,6 @@ fun <T> (() -> T).suchThat(
     condition: (T) -> Boolean
 ): (() -> T) {
     return {
-
-        val list: List<Int> = randomListOfSize(size = randomInt(min = 1, maxInclusive = 10)) { index -> index * 2 }
-
-        val randomHexProvider = {
-            randomString(
-                size = randomInt(min = 10, maxInclusive = 1000),
-                chars = (CharRange('0', '9') + CharRange('a', 'f')).toCharArray()
-            )
-        }.suchThat { hex -> hex.length % 2 == 0 }.orNull()
-
-        val randomStringProvider: () -> String = { randomString() }
-        randomInt(min = 0)
         var iteration = 0
         var result: T
         do {
