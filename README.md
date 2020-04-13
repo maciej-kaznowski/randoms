@@ -33,9 +33,9 @@ If you need to add additional conditions on top of the random variables, just wr
 val randomStringProvider: () -> String = { randomString() }
 ```
 
-Then you can easily allow generated values to be nullable, by appending .nullable() to the end:
+Then you can easily allow generated values to be nullable, by appending `.orNull()` to the end:
 ```kotlin
-val randomNullable: String? = { randomString() }.nullable(nullProbability = 0.5F).invoke()
+val randomNullable: String? = { randomString() }.orNull(nullProbability = 0.5F).invoke()
 ```
 
 ### Example 1
