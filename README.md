@@ -10,16 +10,19 @@ The following randoms are currently available, but more will be added when reque
     - `randomDouble`
     - `randomBoolean`
     - `randomByte`
-    
+
 - ##### Objects:
     - `randomString`
 
 - ##### Collections:
     - `randomListOfSize`
     - `randomSetOfSize`
-    
+
 - ##### Arrays:
     - `randomByteArray`
+
+- ##### Sequences:
+    - `randomCharacterSequence`
 
 ## Usage:
 
@@ -41,13 +44,12 @@ val randomNullable: String? = { randomString() }.orNull(nullProbability = 0.5F).
 ### Example 1
 To create a random nullable hexadecimal string of even length in range [10, 1000]  
 ```kotlin
-val randomHexProvider = { randomString(
-        size = randomInt(min = 10, maxInclusive = 1000),
-        chars = (CharRange('0', '9') + CharRange('a', 'f')).toCharArray()
-)}.suchThat { hex -> hex.length % 2 == 0 }.orNull()
+val randomHexProvider = {randomString(size = randomInt(min = 10, maxInclusive = 1000)) {
+        (CharRange('0', '9') + CharRange('a', 'f')).random()
+}}.suchThat { hex -> hex.length % 2 == 0 }.orNull()
 
-val firstEvenLengthHex : String? = randomHexProvider()
-val secondEvenLengthHex : String? = randomHexProvider()
+val firstEvenLengthHex: String? = randomHexProvider()
+val secondEvenLengthHex: String? = randomHexProvider()
 ```
 
 ### Example 2
