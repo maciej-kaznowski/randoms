@@ -4,6 +4,7 @@ import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.shouldBeEqualTo
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.time.Duration
 
 class RandomArraysTest {
 
@@ -27,6 +28,13 @@ class RandomArraysTest {
     fun `random ByteArray of negative size throws exception`() {
         Assertions.assertThrows(IllegalArgumentException::class.java) {
             randomByteArray(size = -1)
+        }
+    }
+
+    @Test
+    fun `does not timeout creating default random ByteArray`() {
+        Assertions.assertTimeout(Duration.ofSeconds(1L)) {
+            randomByteArray()
         }
     }
 }
